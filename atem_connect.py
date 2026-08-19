@@ -4,12 +4,14 @@
 import argparse
 import logging
 import sys
+import time
 
 import PyATEMMax
 
 DEFAULT_IP = "192.168.1.240"
 DEFAULT_TIMEOUT = 10.0
 DEFAULT_ME = 0
+ACTION_SETTLE_SECONDS = 0.25
 
 logger = logging.getLogger("atem_connect")
 
@@ -87,11 +89,16 @@ def log_input_state(switcher: PyATEMMax.ATEMMax, me: int) -> None:
     )
 
 
+def settle_after_action() -> None:
+    time.sleep(ACTION_SETTLE_SECONDS)
+
+
 def apply_program_input(
     switcher: PyATEMMax.ATEMMax, me: int, video_source: int
 ) -> None:
     switcher.setProgramInputVideoSource(me, video_source)
     logger.info("Set M/E %d program input to %d", me, video_source)
+    settle_after_action()
     log_input_state(switcher, me)
 
 
@@ -100,18 +107,21 @@ def apply_preview_input(
 ) -> None:
     switcher.setPreviewInputVideoSource(me, video_source)
     logger.info("Set M/E %d preview input to %d", me, video_source)
+    settle_after_action()
     log_input_state(switcher, me)
 
 
 def apply_cut(switcher: PyATEMMax.ATEMMax, me: int) -> None:
     switcher.execCutME(me)
     logger.info("Performed cut on M/E %d", me)
+    settle_after_action()
     log_input_state(switcher, me)
 
 
 def apply_auto(switcher: PyATEMMax.ATEMMax, me: int) -> None:
     switcher.execAutoME(me)
     logger.info("Performed auto transition on M/E %d", me)
+    settle_after_action()
     log_input_state(switcher, me)
 
 
@@ -200,6 +210,7 @@ def apply_one_shot_actions(
         apply_cut(switcher, args.me)
     if args.auto:
         apply_auto(switcher, args.me)
+    settle_after_action()
 
 
 def main() -> int:
