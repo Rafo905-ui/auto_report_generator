@@ -38,3 +38,22 @@ python atem_connect.py --ip 192.168.1.240
 Options:
 - `--ip` — IP address of the ATEM device (default `192.168.1.240`)
 - `--timeout` — connection timeout in seconds (default `10`)
+- `--program-input INPUT` — set the program input and exit
+- `--preview-input INPUT` — set the preview input and exit
+- `--cut` — perform a cut and exit
+- `--auto` — perform an automatic transition and exit
+- `--me ME` — mix effect block for one-shot actions and interactive commands (default `0`)
+
+When no one-shot action is selected, the script starts interactive mode:
+- `program INPUT` — set the program input
+- `preview INPUT` — set the preview input
+- `cut` — perform a cut
+- `auto` — perform an automatic transition
+- `state` — show the current program and preview inputs
+- `help` — show the command list
+- `quit` — disconnect and exit
+
+For example, to connect to an ATEM 1 M/E Constellation HD and set camera 3 to program:
+```bash
+python atem_connect.py --ip 172.16.54.93 --program-input 3
+```
