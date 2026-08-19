@@ -80,3 +80,23 @@ For example, to set camera 1 focus and trigger auto-iris:
 ```bash
 python atem_connect.py --ip 172.16.54.93 --camera 1 --focus 30000 --auto-iris
 ```
+
+## 🖥 ATEM control GUI (`atem_gui.py`)
+
+The Tkinter GUI provides connect/disconnect controls, program and preview input buttons, CUT/AUTO transitions, camera iris and focus sliders with debounce, gain and white-balance controls, and a status bar with periodic program/preview refresh.
+
+Tkinter is bundled with the standard Python installation, so no additional GUI package is required.
+
+Run it with:
+```bash
+python atem_gui.py --ip 172.16.54.93
+```
+
+Options:
+- `--ip` — IP address of the ATEM device (default `192.168.1.240`)
+- `--me` — mix effect block for source switching and transitions (default `0`)
+
+For a lightweight terminal alternative without the GUI, run `atem_connect.py` without one-shot action flags and use its interactive mode:
+- `program N` — set the program input
+- `preview N` — set the preview input
+- `cut` — perform a cut
